@@ -1,0 +1,64 @@
+# ========================
+# Global Git Ignore
+# ========================
+
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.env
+
+# Logs
+logs
+*.log
+log/
+*.log.*
+
+# OS/System
+.DS_Store
+Thumbs.db
+
+# IDEs
+.vscode/
+.idea/
+
+# ========================
+# Admin Panel (React + Vite)
+# ========================
+admin-panel/node_modules/
+admin-panel/dist/
+admin-panel/.env
+admin-panel/.DS_Store
+
+# ========================
+# Backend (Express)
+# ========================
+backend/node_modules/
+backend/.env
+backend/logs/
+
+# ========================
+# Android App
+# ========================
+android-app/.gradle/
+android-app/.idea/
+android-app/build/
+android-app/captures/
+android-app/.DS_Store
+android-app/local.properties
+android-app/*.iml
+android-app/.cxx/
+android-app/.externalNativeBuild/
+
+# Gradle
+.gradle/
+build/
+android-app/app/build/
+
+# Kotlin
+android-app/.kotlin/
+
+# Generated files
+android-app/gen/
+android-app/out/
