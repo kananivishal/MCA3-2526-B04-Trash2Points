@@ -14,13 +14,14 @@ const userSchema = new mongoose.Schema(
             required: true
         },
         phoneno: {
-            type: Number,
+            type: String,
             trim: true,
-            minlength:10,
-            mexlength:10,
-            require: true
+            minlength: 10,
+            mexlength: 10,
+            require: true,
+            unique: true
         },
-        address:{
+        address: {
             type: String,
             require: true
         },

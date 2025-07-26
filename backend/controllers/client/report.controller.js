@@ -7,7 +7,7 @@ const addReport = async (req, res) => {
     try {
         let { image, latitude, longitude, address, description } = req.body
         let { token } = req.headers
-        let decodedToken = jwt.verify(token, "Trush2Points")
+        let decodedToken = jwt.verify(token, "Trash2Points")
         let user = await User.findOne({ email: decodedToken.email })
         if (!user || !image || !latitude || !longitude || !address || !description) {
             return res.status(404).json({
@@ -36,7 +36,7 @@ const addReport = async (req, res) => {
     } catch (error) {
         res.status(500).json({
             success: false,
-            message: "Something went wrong",
+            message: "Internal server error!",
             error
         })
     }
@@ -46,7 +46,7 @@ const addReport = async (req, res) => {
 const getUserReports = async (req, res) => {
     try {
         let { token } = req.headers
-        const decodedToken = jwt.verify(token, "Trush2Points")
+        const decodedToken = jwt.verify(token, "Trash2Points")
         const user = await User.findOne({ email: decodedToken.email })
         if (!user) {
             return res.status(404).json({

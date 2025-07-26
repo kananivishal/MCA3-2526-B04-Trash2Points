@@ -23,7 +23,7 @@ const register = async (req, res) => {
         const passwordHashed = bcrypt.hashSync(password, salt)
 
         // jwt token
-        const token = jwt.sign({ email }, "Trush2Points", { expiresIn: '365d' })
+        const token = jwt.sign({ email }, "Trash2Points", { expiresIn: '365d' })
 
         // create user
         await User.create({
@@ -71,14 +71,14 @@ const login = async (req, res) => {
         //     })
         // }
 
-        if (password != user.password) {
+        if (password != user.password || role != user.role) {
             return res.status(400).json({
-                message: "Password not matched!"
+                message: "Invalid credentials!"
             })
         }
 
         // jwt token
-        const token = jwt.sign({ email }, "Trush2Points", { expiresIn: '365d' })
+        const token = jwt.sign({ email }, "Trash2Points", { expiresIn: '365d' })
         
         res.send({
             message: "User logged in",
