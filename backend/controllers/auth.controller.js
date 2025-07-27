@@ -7,13 +7,15 @@ const register = async (req, res) => {
         let { name, email, phoneno, address, password, role } = req.body
 
         if (!name || !email || !phoneno || !address || !password || !role) {
-            res.status(400).json({
+            return res.status(400).json({
+                success: false,
                 message: "Some fields are missing!"
             })
         }
-        const isUserAlreadyExist = await User.findOne({ email })
-        if (isUserAlreadyExist) {
-            return res.status(400).json({
+        const existingUser = await User.findOne({ email })
+        if (existingUser) {
+            return res.status(409).json({
+                success: false,
                 message: "User already exist!"
             })
         }
@@ -22,11 +24,8 @@ const register = async (req, res) => {
         const salt = bcrypt.genSaltSync(10)
         const passwordHashed = bcrypt.hashSync(password, salt)
 
-        // jwt token
-        const token = jwt.sign({ email }, "Trash2Points", { expiresIn: '365d' })
-
         // create user
-        await User.create({
+        const user = await User.create({
             name,
             email,
             phoneno,
@@ -36,13 +35,24 @@ const register = async (req, res) => {
             role: 'user'
         })
 
-        res.status(200).json({
-            message: "User created successfually",
-            token
+        // jwt token
+        const token = jwt.sign({ email }, "Trash2Points", { expiresIn: '365d' })
+
+        return res.status(201).json({
+            success: true,
+            message: "User registered successfually",
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                phoneno: user.phoneno,
+                address: user.address
+            }
         })
+
     } catch (error) {
-        console.log(error);
-        res.status(500).json({
+        return res.status(500).json({
+            success: false,
             message: "Internal server error!"
         })
     }
@@ -54,41 +64,51 @@ const login = async (req, res) => {
 
         if (!email || !password || !role) {
             return res.status(400).json({
+                success: false,
                 message: "Some fields are missing!"
             })
         }
         let user = await User.findOne({ email })
         if (!user) {
-            res.status(400).json({
+            return res.status(404).json({
+                success: false,
                 message: "User not registerd!"
             })
         }
         // compare password
         // const isPasswordMatch = bcrypt.compareSync(password, user.password)
-        // if (!isPasswordMatch) {
-        //     return res.status(400).json({
-        //         message: "Password not matched"
+        // if (!isPasswordMatch || role != user.role) {
+        //     return res.status(401).json({
+        //         success: false,
+        //         message: "Invalid credentials!"
         //     })
         // }
 
         if (password != user.password || role != user.role) {
-            return res.status(400).json({
+            return res.status(401).json({
+                success: false,
                 message: "Invalid credentials!"
             })
         }
 
         // jwt token
         const token = jwt.sign({ email }, "Trash2Points", { expiresIn: '365d' })
-        
-        res.send({
-            message: "User logged in",
-            user,
-            token
+
+        return res.status(200).json({
+            success: true,
+            message: "User logged in successfully!",
+            token,
+            user: {
+                name: user.name,
+                email: user.email,
+                phoneno: user.phoneno,
+                address: user.address
+            }
         })
 
     } catch (error) {
-        console.log(error)
-        res.status(500).json({
+        return res.status(500).json({
+            success: false,
             message: "Internal server error!"
         })
     }

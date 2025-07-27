@@ -2,13 +2,22 @@ const express = require('express')
 const { addReport, getUserReports, getSingleReport } = require('../../controllers/client/report.controller')
 const router = express.Router()
 
-// add report
+// report routers
+// add report router
 router.post('/addreport', addReport)
-
-// show all reports
+// all reports router
 router.get('/reports/', getUserReports)
-
-// show one report
+// one report router
+// handle missing report router
+router.get('/report', (req, res) => {
+    return res.status(400).json({
+        success: false,
+        message: "Report ID missing!"
+    });
+})
+// get single report router
 router.get('/report/:id', getSingleReport)
+
+// dashboard routers
 
 module.exports = router
