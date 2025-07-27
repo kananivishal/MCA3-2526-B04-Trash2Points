@@ -7,7 +7,7 @@ const verifyAdmin = async (token) => {
     if (!token) {
         throw {
             status: 401,
-            message: "Token missing!"
+            message: "Authorization token missing!"
         }
     }
 
@@ -62,6 +62,14 @@ const updateReport = async (req, res) => {
         let { status } = req.body
         const { id } = req.params
 
+        // check report id valide or not
+        if (!mongoose.Types.ObjectId.isValid(id)) {
+            return res.status(400).json({
+                success: false,
+                message: "Invalid Report ID format!"
+            });
+        }
+
         if (!status || !id) {
             return res.status(400).json({
                 success: false,
@@ -102,11 +110,13 @@ const updateReport = async (req, res) => {
 const deleteReport = async (req, res) => {
     try {
         let { id } = req.params
-        if (!id) {
+
+        // check report id valide or not
+        if (!mongoose.Types.ObjectId.isValid(id)) {
             return res.status(400).json({
                 success: false,
-                message: "Some fileds are missing!"
-            })
+                message: "Invalid Report ID format!"
+            });
         }
 
         let { token } = req.headers
