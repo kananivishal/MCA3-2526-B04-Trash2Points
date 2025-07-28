@@ -1,5 +1,6 @@
 const express = require('express')
 const { addReport, getUserReports, getSingleReport } = require('../../controllers/client/report.controller')
+const { home } = require('../../controllers/client/home.controller')
 const router = express.Router()
 
 // report routers
@@ -19,5 +20,6 @@ router.get('/report', (req, res) => {
 router.get('/report/:id', getSingleReport)
 
 // dashboard routers
+router.get('/home', home)
 
 module.exports = router

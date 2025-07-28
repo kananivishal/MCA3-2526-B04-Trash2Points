@@ -1,4 +1,5 @@
 const jwt = require('jsonwebtoken')
+const mongoose = require('mongoose')
 const { User } = require('../../model/User')
 const Report = require('../../model/Report')
 
@@ -43,14 +44,14 @@ const getAllReports = async (req, res) => {
             })
         }
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             count: reports.length,
             reports
         })
 
     } catch (error) {
-        res.status(error.status || 500).json({
+        return res.status(error.status || 500).json({
             success: false,
             message: error.message || "Internal server error!",
         })
@@ -93,7 +94,7 @@ const updateReport = async (req, res) => {
             verifiedBy: user._id
         }, { new: true })
 
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Report status changed!",
             report: updateReport
@@ -137,7 +138,7 @@ const deleteReport = async (req, res) => {
                 message: "Report not deleted!"
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             message: "Report deleted successfully."
         })

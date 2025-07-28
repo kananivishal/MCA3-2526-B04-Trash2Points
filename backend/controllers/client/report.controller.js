@@ -55,7 +55,7 @@ const addReport = async (req, res) => {
 
 
     } catch (error) {
-        res.status(error.status || 500).json({
+        return res.status(error.status || 500).json({
             success: false,
             message: error.message || "Internal server error!",
         })
@@ -67,21 +67,21 @@ const getUserReports = async (req, res) => {
     try {
         let { token } = req.headers
         const user = await verifyUser(token)
-        
+
         let reports = await Report.find({ userId: user._id }).sort({ createdAt: -1 })
         if (!reports) {
             return res.status(404).json({
                 message: "Reports not available!"
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             count: reports.length,
             reports
         })
 
     } catch (error) {
-        res.status(error.status || 500).json({
+        return res.status(error.status || 500).json({
             success: false,
             message: error.message || "Internal server error!",
         })
@@ -112,13 +112,13 @@ const getSingleReport = async (req, res) => {
                 message: "Report not found!"
             })
         }
-        res.status(200).json({
+        return res.status(200).json({
             success: true,
             report
         })
 
     } catch (error) {
-        res.status(error.status || 500).json({
+        return res.status(error.status || 500).json({
             success: false,
             message: error.message || "Internal server error!",
         })

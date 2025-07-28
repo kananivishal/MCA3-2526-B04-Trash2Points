@@ -1,25 +1,23 @@
 const express = require('express')
 const router = express.Router()
 // router
-const userRouter = require('./auth')
-const reportRouter = require('./client')
-const adminReportRouter = require('./admin')
+const authRouter = require('./auth')
+const userRouter = require('./client')
+const adminRouter = require('./admin')
 
 // Coman router
 // auth router
-router.use('/auth', userRouter)
+router.use('/auth', authRouter)
 
 
 // User router
-
 // user report router
-router.use('/report', reportRouter)
-// rouetr.use('/dashboard')
+router.use('/report', userRouter)
+router.use('/', userRouter)
 
 
 // Admin router
-
 // admin report router
-router.use('/adminreport', adminReportRouter)
+router.use('/adminreport', adminRouter)
 
 module.exports = router
