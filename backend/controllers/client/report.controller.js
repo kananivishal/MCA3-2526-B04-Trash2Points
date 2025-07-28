@@ -30,8 +30,10 @@ const addReport = async (req, res) => {
         let { image, latitude, longitude, address, description } = req.body
         let { token } = req.headers
         const user = await verifyUser(token)
+        
         if (!image || !latitude || !longitude || !address || !description) {
             return res.status(400).json({
+                success: false,
                 message: "Some fields are missing"
             })
         }

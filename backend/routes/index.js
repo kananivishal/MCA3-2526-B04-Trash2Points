@@ -8,6 +8,7 @@ const adminRouter = require('./admin')
 // Coman router
 // auth router
 router.use('/auth', authRouter)
+router.use('/profile', authRouter)
 
 
 // User router

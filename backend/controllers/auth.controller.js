@@ -114,4 +114,47 @@ const login = async (req, res) => {
     }
 }
 
-module.exports = { register, login }
+const editProfile = async (req, res) => {
+    try {
+        const { name, address } = req.body
+        if (!name || !address) {
+            return res.status(400).json({
+                success: false,
+                message: "Some fields are missing"
+            })
+        }
+
+        let { token } = req.headers
+        const decodedToken = jwt.verify(token, "Trash2Points")
+        const user = await User.findOne({ email: decodedToken.email })
+        if (!user) {
+            return res.status(404).json({
+                success: false,
+                massage: "User not found!"
+            })
+        }
+
+        const updateProfile = await User.findByIdAndUpdate(user._id, {
+            name: name,
+            address: address
+        }, { new: true })
+
+        return res.status(200).json({
+            success: true,
+            message: "Profile update successfully.",
+            user: {
+                name: updateProfile.name,
+                email: updateProfile.email,
+                phoneno: updateProfile.phoneno,
+                address: updateProfile.address
+            }
+        })
+    } catch (error) {
+        return res.status(500).json({
+            success: false,
+            message: "Internal server error"
+        })
+    }
+}
+
+module.exports = { register, login, editProfile }
