@@ -2,4 +2,18 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="primaryColor">#1D61E7</color>
+    <color name="secondaryColor">#006FFD</color>
+    <color name="bgColor">#FF7200</color>
+    <color name="viewColor">#CFCFCF</color>
+    <color name="editTextColor">#D3D3D3</color>
+    <color name="stroke_color">#8F9098</color>
+    <color name="black_transperent2">#88000000</color>
+
+    <color name="textColor">#6F6F6F</color>
+
+    <color name="def_icon">#353535</color>
+    <color name="lightGray">#FF9E9E9E</color>
+    <color name="secondaryText">#FF757575</color>
+    <color name="dividerLight">#E8E8E8</color>
 </resources>
