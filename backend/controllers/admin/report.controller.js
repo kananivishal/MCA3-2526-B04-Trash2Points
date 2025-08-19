@@ -36,7 +36,11 @@ const getAllReports = async (req, res) => {
         let { token } = req.headers
         await verifyAdmin(token)
 
-        let reports = await Report.find({}).sort({ createdAt: -1 })
+        let reports = await Report.find({})
+            .sort({ createdAt: -1 })
+            .populate('userId', 'name')
+            .populate('verifiedBy', 'name')
+
         if (!reports) {
             return res.status(404).json({
                 success: false,
@@ -47,7 +51,17 @@ const getAllReports = async (req, res) => {
         return res.status(200).json({
             success: true,
             count: reports.length,
-            reports
+            reports: reports.map(report => ({
+                id: report._id,
+                location: report.location,
+                user: report.userId.name,
+                description: report.description,
+                status: report.status,
+                image: report.image,
+                updatedAt: report.updatedAt.toLocaleDateString(),
+                createdAt: report.createdAt.toLocaleDateString(),
+                verifiedBy: report.verifiedBy ? report.verifiedBy.name : null
+            }))
         })
 
     } catch (error) {
@@ -110,7 +124,7 @@ const updateReport = async (req, res) => {
 
 const deleteReport = async (req, res) => {
     try {
-        let { id } = req.params
+        const { id } = req.params
 
         // check report id valide or not
         if (!mongoose.Types.ObjectId.isValid(id)) {
