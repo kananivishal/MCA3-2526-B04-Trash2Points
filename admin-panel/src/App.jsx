@@ -6,6 +6,7 @@ import Login from './pages/login'
 import Reports from './pages/Reports'
 import { PublicRoute, PrivateRoute } from './components/RouteGuards'
 import Profile from './pages/Profile'
+import NotFound from './pages/NotFound'
 
 const router = createBrowserRouter([
   {
@@ -18,7 +19,8 @@ const router = createBrowserRouter([
     children: [
       { path: '/', element: <Home /> },
       { path: '/reports', element: <Reports /> },
-      { path: '/profile', element: <Profile /> }
+      { path: '/profile', element: <Profile /> },
+      { path: '*', element: <NotFound /> }
     ]
   },
   {
@@ -29,6 +31,14 @@ const router = createBrowserRouter([
       </PublicRoute>
     )
   },
+  {
+    path: '*',
+    element: (
+      <PublicRoute>
+        <NotFound />
+      </PublicRoute>
+    )
+  }
 ])
 
 function App() {

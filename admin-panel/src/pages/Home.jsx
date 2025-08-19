@@ -30,7 +30,7 @@ export default function Home() {
                     </div>
                     <div>
                         <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Total clients
+                            Total reports
                         </p>
                         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             6389
@@ -48,7 +48,7 @@ export default function Home() {
                     </div>
                     <div>
                         <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Account balance
+                            Panding reports
                         </p>
                         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             $ 46,760.89
@@ -66,7 +66,7 @@ export default function Home() {
                     </div>
                     <div>
                         <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            New sales
+                            Cleaned reports
                         </p>
                         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             376
@@ -84,7 +84,24 @@ export default function Home() {
                     </div>
                     <div>
                         <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
-                            Pending contacts
+                            Rejected reports
+                        </p>
+                        <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
+                            35
+                        </p>
+                    </div>
+                </div>
+                <div className="flex items-center p-4 bg-white rounded-lg shadow-xs dark:bg-gray-800">
+                    <div className="p-3 mr-4 text-teal-500 bg-teal-100 rounded-full dark:text-teal-100 dark:bg-teal-500">
+                        <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
+                            <path fill-rule="evenodd"
+                                d="M18 5v8a2 2 0 01-2 2h-5l-5 4v-4H4a2 2 0 01-2-2V5a2 2 0 012-2h12a2 2 0 012 2zM7 8H5v2h2V8zm2 0h2v2H9V8zm6 0h-2v2h2V8z"
+                                clip-rule="evenodd"></path>
+                        </svg>
+                    </div>
+                    <div>
+                        <p className="mb-2 text-sm font-medium text-gray-600 dark:text-gray-400">
+                            Total user
                         </p>
                         <p className="text-lg font-semibold text-gray-700 dark:text-gray-200">
                             35
@@ -94,7 +111,7 @@ export default function Home() {
             </div>
 
             {/* <!-- New Table --> */}
-            <div className="w-full overflow-hidden rounded-lg shadow-xs">
+            {/* <div className="w-full overflow-hidden rounded-lg shadow-xs">
                 <div className="w-full overflow-x-auto">
                     <table className="w-full whitespace-no-wrap">
                         <thead>
@@ -110,7 +127,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -142,7 +158,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&facepad=3&fit=facearea&s=707b9c33066bf8808c934c8ab394dff6"
@@ -174,7 +189,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1551069613-1904dbdcda11?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -206,7 +220,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1551006917-3b4c078c47c9?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -238,7 +251,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1546456073-6712f79251bb?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -270,7 +282,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1502720705749-871143f0e671?ixlib=rb-0.3.5&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&s=b8377ca9f985d80264279f277f3a67f5"
@@ -302,7 +313,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1531746020798-e6953c6e8e04?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -334,7 +344,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/photo-1566411520896-01e7ca4726af?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -366,7 +375,6 @@ export default function Home() {
                             <tr className="text-gray-700 dark:text-gray-400">
                                 <td className="px-4 py-3">
                                     <div className="flex items-center text-sm">
-                                        {/* <!-- Avatar with inset shadow --> */}
                                         <div className="relative hidden w-8 h-8 mr-3 rounded-full md:block">
                                             <img className="object-cover w-full h-full rounded-full"
                                                 src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
@@ -403,7 +411,6 @@ export default function Home() {
                         Showing 21-30 of 100
                     </span>
                     <span className="col-span-2"></span>
-                    {/* <!-- Pagination --> */}
                     <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                         <nav aria-label="Table navigation">
                             <ul className="inline-flex items-center">
@@ -465,10 +472,10 @@ export default function Home() {
                         </nav>
                     </span>
                 </div>
-            </div>
+            </div> */}
 
             {/* <!-- Charts --> */}
-            <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
+            {/* <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 Charts
             </h2>
             <div className="grid gap-6 mb-8 md:grid-cols-2">
@@ -478,7 +485,6 @@ export default function Home() {
                     </h4>
                     <canvas id="pie"></canvas>
                     <div className="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                        {/* <!-- Chart legend --> */}
                         <div className="flex items-center">
                             <span className="inline-block w-3 h-3 mr-1 bg-blue-500 rounded-full"></span>
                             <span>Shirts</span>
@@ -499,7 +505,6 @@ export default function Home() {
                     </h4>
                     <canvas id="line"></canvas>
                     <div className="flex justify-center mt-4 space-x-3 text-sm text-gray-600 dark:text-gray-400">
-                        {/* <!-- Chart legend --> */}
                         <div className="flex items-center">
                             <span className="inline-block w-3 h-3 mr-1 bg-teal-600 rounded-full"></span>
                             <span>Organic</span>
@@ -510,7 +515,7 @@ export default function Home() {
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> */}
         </>
     )
 }
