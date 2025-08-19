@@ -21,11 +21,13 @@ const home = async (req, res) => {
             })
         }
 
+        // Total reports count
+        const totalReports = await Report.countDocuments();
+
+        // Status-wise report count (for all reports)
         const statusCountsArray = await Report.aggregate([
-            { $match: { userId: user._id } },
             { $group: { _id: "$status", count: { $sum: 1 } } }
         ]);
-
         const statusCounts = {};
         statusCountsArray.forEach(item => {
             statusCounts[item._id] = item.count;
@@ -37,19 +39,32 @@ const home = async (req, res) => {
             }
         });
 
-        const letestRepoert = await Report.find().sort({ createdAt: -1 }).limit(5)
+        // Total user count (role = user)
+        const totalUsers = await User.countDocuments({ role: "user" });
 
-        if (!letestRepoert) {
-            return res.status(404).json({
-                success: false,
-                message: "Report not available!"
-            })
-        }
+        // Latest 5 reports
+        const latestReports = await Report.find()
+        .sort({ createdAt: -1 })
+        .limit(5)
+        .populate('userId', 'name')
+        .populate('verifiedBy', 'name')
 
         return res.status(200).json({
             success: true,
+            totalReports,
             statusCounts,
-            letestRepoert
+            totalUsers,
+            latestReports : latestReports.map(report => ({
+                id: report._id,
+                location: report.location,
+                user: report.userId.name,
+                description: report.description,
+                status: report.status,
+                image: report.image,
+                updatedAt: report.updatedAt.toLocaleDateString(),
+                createdAt: report.createdAt.toLocaleDateString(),
+                verifiedBy: report.verifiedBy ? report.verifiedBy.name : null
+            }))
         })
 
 

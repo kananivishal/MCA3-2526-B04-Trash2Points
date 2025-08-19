@@ -20,5 +20,6 @@ router.use('/', userRouter)
 // Admin router
 // admin report router
 router.use('/adminreport', adminRouter)
+router.use('/admin', adminRouter)
 
 module.exports = router
