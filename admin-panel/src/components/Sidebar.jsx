@@ -6,6 +6,7 @@ function Sidebar({ isOpen, onClose }) {
   // const [isSideMenuOpen, setIsSideMenuOpen] = useState(false);
   const [isPagesMenuOpenDesktop, setIsPagesMenuOpenDesktop] = useState(false);
   const [isPagesMenuOpenMobile, setIsPagesMenuOpenMobile] = useState(false);
+  const [isActiveMenu, setIsActiveMenu] = useState("Dashboard");
 
   // SVG icon definitions (replace these or use your own)
   const dashboardIcon = (
@@ -18,9 +19,9 @@ function Sidebar({ isOpen, onClose }) {
       <path d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
-  const cardsIcon = (
+  const profilesIcon = (
     <svg className="w-5 h-5" aria-hidden="true" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-      <path d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" strokeLinecap="round" strokeLinejoin="round" />
+      <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
   const chartsIcon = (
@@ -62,7 +63,7 @@ function Sidebar({ isOpen, onClose }) {
   const navLinks = [
     { to: "/", label: "Dashboard", icon: dashboardIcon, isRoute: true },
     { to: "/reports", label: "Reports", icon: formsIcon, isRoute: true },
-    { to: "/profile", label: "Profile", icon: cardsIcon, isRoute: true },
+    { to: "/profile", label: "Profile", icon: profilesIcon, isRoute: true },
     // { to: "#", label: "Charts", icon: chartsIcon, isRoute: false },
     // { to: "#", label: "Buttons", icon: buttonsIcon, isRoute: false },
     // { to: "#", label: "Modals", icon: modalsIcon, isRoute: false },
@@ -80,6 +81,11 @@ function Sidebar({ isOpen, onClose }) {
   ];
 
 
+    function handleOnclickLabel(e) {
+      setIsActiveMenu(e.target.innerText);
+      
+    }
+
   return (
     <>
       {/* Desktop Sidebar */}
@@ -88,22 +94,23 @@ function Sidebar({ isOpen, onClose }) {
           <Link to="/" className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200">
             Trash2Points
           </Link>
-          <ul className="mt-6">
+          {/* <ul className="mt-6">
             <li className="relative px-6 py-3">
-              <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span>
-              <Link to="/" className="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
-                {dashboardIcon}
-                <span className="ml-4">Dashboard</span>
-              </Link>
+            <Link to="/" className="inline-flex items-center w-full text-sm font-semibold text-gray-800 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200 dark:text-gray-100">
+            {dashboardIcon}
+            <span className="ml-4">Dashboard</span>
+            </Link>
             </li>
-          </ul>
-          <ul>
-            {navLinks.slice(1).map(({ to, label, icon, isRoute }) => (
-              <li className="relative px-6 py-3" key={label}>
+            </ul> */}
+          <ul className='mt-6'>
+            {navLinks.map(({ to, label, icon, isRoute }) => (
+              <li className="relative px-6 py-3" key={label} onClick={(e)=> handleOnclickLabel(e)}>
                 {isRoute ? (
                   <Link to={to} className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                    {icon}
-                    <span className="ml-4">{label}</span>
+                    {isActiveMenu === label  ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
+
+                    <span style={isActiveMenu === label ?{color:"#2d3748"}: null}>{icon}</span>
+                    <span className="ml-4" style={isActiveMenu === label ?{color:"#2d3748"}: null}>{label}</span>
                   </Link>
                 ) : (
                   <a
@@ -174,7 +181,7 @@ function Sidebar({ isOpen, onClose }) {
           <Link to="/" className="ml-6 text-lg font-bold text-gray-800 dark:text-gray-200">
             Trash2Points
           </Link>
-          <ul className="mt-6">
+          {/* <ul className="mt-6">
             <li className="relative px-6 py-3">
               <span
                 className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg"
@@ -185,17 +192,19 @@ function Sidebar({ isOpen, onClose }) {
                 <span className="ml-4">Dashboard</span>
               </Link>
             </li>
-          </ul>
+          </ul> */}
           <ul>
-            {navLinks.slice(1).map(({ to, label, icon, isRoute }) => (
-              <li className="relative px-6 py-3" key={label}>
+            {navLinks.map(({ to, label, icon, isRoute }) => (
+              <li className="relative px-6 py-3" key={label} onClick={(e)=> handleOnclickLabel(e)}>
                 {isRoute ? (
                   <Link
                     to={to}
                     className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
                   >
-                    {icon}
-                    <span className="ml-4">{label}</span>
+                    {isActiveMenu === label  ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
+
+                    <span style={isActiveMenu === label ?{color:"#2d3748"}: null}>{icon}</span>
+                    <span className="ml-4" style={isActiveMenu === label ?{color:"#2d3748"}: null}>{label}</span>
                   </Link>
                 ) : (
                   <a
@@ -209,7 +218,7 @@ function Sidebar({ isOpen, onClose }) {
                 )}
               </li>
             ))}
-            <li className="relative px-6 py-3">
+            {/* <li className="relative px-6 py-3">
               <button
                 type="button"
                 className="inline-flex items-center justify-between w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
@@ -227,7 +236,6 @@ function Sidebar({ isOpen, onClose }) {
                   aria-label="submenu">
                   {pageLinks.map(({ to, label, isRoute })=>(
                     <li key={label} className="px-2 py-1 transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                      {/* <a className="w-full" href={pg.href}>{pg.label}</a> */}
                       {isRoute ? (
                         <Link to={to} className="w-full block">
                           {label}
@@ -241,16 +249,16 @@ function Sidebar({ isOpen, onClose }) {
                   ))}
                 </ul>
               )}
-            </li>
+            </li> */}
           </ul>
-          <div className="px-6 my-6">
+          {/* <div className="px-6 my-6">
             <button
               className="flex items-center justify-between px-4 py-2 text-sm font-medium leading-5 text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg active:bg-purple-600 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
             >
               Create account
               <span className="ml-2" aria-hidden="true">+</span>
             </button>
-          </div>
+          </div> */}
         </div>
       </aside>
 

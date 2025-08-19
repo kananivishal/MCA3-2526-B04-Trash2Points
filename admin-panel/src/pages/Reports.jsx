@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from "react";
-import { getAllReports } from "../api/reports";
+import { getAllReports, updateReport, deleteReport } from "../api/reports";
 
 export default function Reports() {
     const [reports, setReports] = useState([]);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState("");
+    const [selectedReport, setSelectedReport] = useState(null);
+    const [status, setStatus] = useState("");
+    const [isImageModalOpen, setIsImageModalOpen] = useState(false);
+    const [statusChangedAlert, setStatusChangedAlert] = useState(false);
+    const [deleteAlert, setDeleteAlert] = useState(false);
+    const [deleteErrorAlert, setDeleteErrorAlert] = useState("");
 
     useEffect(() => {
         async function fetchReports() {
@@ -20,84 +26,132 @@ export default function Reports() {
         fetchReports();
     }, []);
 
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const closeModal = () => setIsModalOpen(false);
+    const [statusError, setStatusError] = useState("");
+
+    const handleSave = async () => {
+        setStatusError("");
+        if (selectedReport && status !== selectedReport.status) {
+            try {
+                await updateReport(selectedReport.id, status);
+                const data = await getAllReports();
+                setReports(data.reports || []);
+                setStatusChangedAlert(true);
+                setTimeout(() => setStatusChangedAlert(false), 2500);
+                closeModal();
+            } catch (err) {
+                setStatusError("Failed to update status.");
+            }
+        } else {
+            closeModal();
+        }
+    };
+
+    const handleDelete = async (report) => {
+        if (window.confirm("Are you sure you want to delete this report?")) {
+            try {
+                await deleteReport(report.id); // or report._id if that's your backend property
+                setDeleteAlert(true);
+                setTimeout(() => setDeleteAlert(false), 2500);
+                const data = await getAllReports();
+                setReports(data.reports || []);
+            } catch (err) {
+                setDeleteErrorAlert(err.message || "Failed to delete report.");
+                setTimeout(() => setDeleteErrorAlert(""), 3500);
+            }
+        }
+    };
+
     return (
         <>
             <h2 className="my-6 text-2xl font-semibold text-gray-700 dark:text-gray-200">
                 All Reports
             </h2>
+            {statusChangedAlert && (
+                <div className="mb-4 px-4 py-2 rounded bg-green-100 text-green-800 text-center font-semibold shadow">
+                    Status changed successfully!
+                </div>
+            )}
+            {deleteAlert && (
+                <div className="mb-4 px-4 py-2 rounded bg-green-100 text-green-800 text-center font-semibold shadow">
+                    Report deleted successfully!
+                </div>
+            )}
             {loading ? (
                 <div className="text-center text-gray-600 dark:text-gray-300">Loading...</div>
             ) : error ? (
                 <div className="text-center text-red-500">{error}</div>
             ) : (
-                <div class="w-full overflow-hidden rounded-lg shadow-xs">
-                    <div class="w-full overflow-x-auto">
-                        <table class="w-full whitespace-no-wrap">
+                <div className="w-full overflow-hidden rounded-lg shadow-xs">
+                    <div className="w-full overflow-x-auto">
+                        <table className="w-full whitespace-no-wrap">
                             <thead>
                                 <tr
-                                    class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
+                                    className="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800"
                                 >
-                                    <th class="px-4 py-3">#</th>
-                                    <th class="px-4 py-3">User</th>
-                                    <th class="px-4 py-3">Image</th>
-                                    <th class="px-4 py-3">Description</th>
-                                    <th class="px-4 py-3">Status</th>
-                                    <th class="px-4 py-3">Date</th>
-                                    <th class="px-4 py-3">VerifiedBy</th>
-                                    <th class="px-4 py-3">Actions</th>
+                                    <th className="px-4 py-3">#</th>
+                                    <th className="px-4 py-3">User</th>
+                                    <th className="px-4 py-3">Image</th>
+                                    <th className="px-4 py-3">Address</th>
+                                    <th className="px-4 py-3">Description</th>
+                                    <th className="px-4 py-3">Status</th>
+                                    <th className="px-4 py-3">Date</th>
+                                    <th className="px-4 py-3">VerifiedBy</th>
+                                    <th className="px-4 py-3">Actions</th>
                                 </tr>
                             </thead>
                             <tbody
-                                class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
+                                className="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800"
                             >
                                 {reports.length === 0 ? (
                                     <td colSpan={8} className="py-4 px-4 text-center text-gray-500 dark:text-gray-400">No reports found.</td>
-                                    // <tr class="text-gray-700 dark:text-gray-400">
-                                    //     <td class="px-4 py-3">
-                                    //         <div class="flex items-center text-sm">
+                                    // <tr className="text-gray-700 dark:text-gray-400">
+                                    //     <td className="px-4 py-3">
+                                    //         <div className="flex items-center text-sm">
                                     //             <div
-                                    //                 class="relative hidden w-8 h-8 mr-3 rounded-full md:block"
+                                    //                 className="relative hidden w-8 h-8 mr-3 rounded-full md:block"
                                     //             >
                                     //                 <img
-                                    //                     class="object-cover w-full h-full rounded-full"
+                                    //                     className="object-cover w-full h-full rounded-full"
                                     //                     src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
                                     //                     alt=""
                                     //                     loading="lazy"
                                     //                 />
                                     //                 <div
-                                    //                     class="absolute inset-0 rounded-full shadow-inner"
+                                    //                     className="absolute inset-0 rounded-full shadow-inner"
                                     //                     aria-hidden="true"
                                     //                 ></div>
                                     //             </div>
                                     //             <div>
-                                    //                 <p class="font-semibold">Hans Burger</p>
-                                    //                 <p class="text-xs text-gray-600 dark:text-gray-400">
+                                    //                 <p className="font-semibold">Hans Burger</p>
+                                    //                 <p className="text-xs text-gray-600 dark:text-gray-400">
                                     //                     10x Developer
                                     //                 </p>
                                     //             </div>
                                     //         </div>
                                     //     </td>
-                                    //     <td class="px-4 py-3 text-sm">
+                                    //     <td className="px-4 py-3 text-sm">
                                     //         $ 863.45
                                     //     </td>
-                                    //     <td class="px-4 py-3 text-xs">
+                                    //     <td className="px-4 py-3 text-xs">
                                     //         <span
-                                    //             class="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
+                                    //             className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
                                     //         >
                                     //             Approved
                                     //         </span>
                                     //     </td>
-                                    //     <td class="px-4 py-3 text-sm">
+                                    //     <td className="px-4 py-3 text-sm">
                                     //         6/10/2020
                                     //     </td>
-                                    //     <td class="px-4 py-3">
-                                    //         <div class="flex items-center space-x-4 text-sm">
+                                    //     <td className="px-4 py-3">
+                                    //         <div className="flex items-center space-x-4 text-sm">
                                     //             <button
-                                    //                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    //                 className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     //                 aria-label="Edit"
                                     //             >
                                     //                 <svg
-                                    //                     class="w-5 h-5"
+                                    //                     className="w-5 h-5"
                                     //                     aria-hidden="true"
                                     //                     fill="currentColor"
                                     //                     viewBox="0 0 20 20"
@@ -108,11 +162,11 @@ export default function Reports() {
                                     //                 </svg>
                                     //             </button>
                                     //             <button
-                                    //                 class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                    //                 className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                     //                 aria-label="Delete"
                                     //             >
                                     //                 <svg
-                                    //                     class="w-5 h-5"
+                                    //                     className="w-5 h-5"
                                     //                     aria-hidden="true"
                                     //                     fill="currentColor"
                                     //                     viewBox="0 0 20 20"
@@ -130,21 +184,60 @@ export default function Reports() {
                                 ) : (
                                     reports.map((report, idx) => (
                                         <tr key={report._id || idx} className="border-b border-gray-200 dark:border-gray-700">
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{idx + 1}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.userId}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.image}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.description}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.status}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{new Date(report.updatedAt).toLocaleDateString()}</td>
-                                            <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.verifiedBy}</td>
-                                            <td class="px-4 py-3">
-                                                <div class="flex items-center space-x-4 text-sm">
+                                            <td className="px-4 py-3 text-sm">
+                                                {idx + 1}
+                                            </td>
+                                            <td className="py-3 px-4 text-sm">{report.user}</td>
+                                            <td className="px-4 py-3">
+                                                <div className="flex items-center text-sm">
+                                                    {/* <div
+                                                        className="relative w-24 h-24 mr-3 md:block"
+                                                    > */}
+                                                    <img
+                                                        className="object-cover"
+                                                        style={{ width: "80px", height: "80px" }}
+                                                        src={report.image}
+                                                        alt="Report"
+                                                        loading="lazy"
+                                                    />
+                                                    {/* </div> */}
+                                                </div>
+                                            </td>
+                                            {/* <td className="py-3 px-4 text-gray-700 dark:text-gray-200">{report.image}</td> */}
+                                            <td className="py-3 px-4 text-sm">{report.location.address.split('', 15).join("") + "..."}</td>
+                                            <td className="py-3 px-4 text-sm">{report.description.split('', 15).join("") + "..."}</td>
+                                            <td className="px-4 py-3 text-xs">
+                                                {report.status === "cleaned" ? (
+                                                    <span className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100">
+                                                        Cleaned
+                                                    </span>
+                                                ) : report.status === "pending" ? (
+                                                    <span className="px-2 py-1 font-semibold leading-tight text-orange-700 bg-orange-100 rounded-full dark:text-white dark:bg-orange-600">
+                                                        Pending
+                                                    </span>
+                                                ) : report.status === "rejected" ? (
+                                                    <span className="px-2 py-1 font-semibold leading-tight text-red-700 bg-red-100 rounded-full dark:text-red-100 dark:bg-red-700">
+                                                        Rejected
+                                                    </span>
+                                                ) : (
+                                                    <span className="px-2 py-1 font-semibold leading-tight text-gray-700 bg-gray-100 rounded-full dark:text-gray-100 dark:bg-gray-700">
+                                                        {report.status}
+                                                    </span>
+                                                )}
+                                            </td>
+                                            <td className="py-3 px-4 text-sm">{report.updatedAt}</td>
+                                            <td className="py-3 px-4 text-sm">
+                                                {report.verifiedBy ? report.verifiedBy : "Not Verified"}
+                                            </td>
+                                            <td className="px-4 py-3">
+                                                <div className="flex items-center space-x-4 text-sm">
                                                     <button
-                                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                        className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                         aria-label="Edit"
+                                                        onClick={() => { setSelectedReport(report); setIsModalOpen(true); setStatus(report.status); }}
                                                     >
                                                         <svg
-                                                            class="w-5 h-5"
+                                                            className="w-5 h-5"
                                                             aria-hidden="true"
                                                             fill="currentColor"
                                                             viewBox="0 0 20 20"
@@ -155,11 +248,12 @@ export default function Reports() {
                                                         </svg>
                                                     </button>
                                                     <button
-                                                        class="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
+                                                        className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
                                                         aria-label="Delete"
+                                                        onClick={() => handleDelete(report)}
                                                     >
                                                         <svg
-                                                            class="w-5 h-5"
+                                                            className="w-5 h-5"
                                                             aria-hidden="true"
                                                             fill="currentColor"
                                                             viewBox="0 0 20 20"
@@ -179,23 +273,219 @@ export default function Reports() {
                             </tbody>
                         </table>
                     </div>
+
+                    {/* Modal Overlay */}
+                    {isModalOpen && (
+                        <div
+                            className="fixed inset-0 z-30 flex items-end bg-black bg-opacity-50 sm:items-center sm:justify-center"
+                            onClick={closeModal}
+                        >
+                            {/* Modal */}
+                            <div
+                                className="w-full px-6 py-4 overflow-hidden bg-white rounded-t-lg dark:bg-gray-800 sm:rounded-lg sm:m-4 sm:max-w-xl transition duration-150"
+                                role="dialog"
+                                onClick={(e) => e.stopPropagation()} // prevent overlay click
+                            >
+                                {/* Header */}
+                                <header className="flex justify-between">
+                                    <p className="mb-2 text-2xl font-semibold text-gray-700 dark:text-gray-300">
+                                        Report Details
+                                    </p>
+                                    <div className="flex justify-end">
+                                        <button
+                                            className="inline-flex items-center justify-center w-6 h-6 text-gray-400 hover:text-gray-700 dark:hover:text-gray-200"
+                                            aria-label="close"
+                                            onClick={closeModal}
+                                        >
+                                            <svg
+                                                className="w-4 h-4"
+                                                fill="currentColor"
+                                                viewBox="0 0 20 20"
+                                            >
+                                                <path
+                                                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                                                    fillRule="evenodd"
+                                                    clipRule="evenodd"
+                                                />
+                                            </svg>
+                                        </button>
+                                    </div>
+
+                                </header>
+
+                                {/* Body */}
+                                <div className="mt-4 mb-6">
+                                    <div className="relative">
+                                        <img
+                                            src={selectedReport.image}
+                                            alt="Report evidence"
+                                            className="w-full h-32 sm:h-80 object-cover rounded-lg border shadow-sm cursor-pointer hover:shadow-md transition-shadow"
+                                            onClick={() => setIsImageModalOpen(true)}
+                                        />
+                                        {/* <div className="absolute bottom-2 right-2 bg-black/60 text-white text-xs px-2 py-1 rounded">
+                                            Click to view full size
+                                        </div> */}
+                                    </div>
+
+                                    <div className="grid gap-6 mt-4 md:grid-cols-2 xl:grid-cols-2">
+                                        {/* Location */}
+                                        <div className="space-y-1">
+                                            <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                                <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    Location
+                                                </span>
+                                            </div>
+                                            <p className="text-foreground text-sm dark:text-gray-400">{selectedReport.location.address}</p>
+                                        </div>
+
+                                        {/* User */}
+                                        <div className="space-y-1">
+                                            <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                                <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    Reported By
+                                                </span>
+                                            </div>
+                                            <p className="text-foreground text-sm dark:text-gray-400">{selectedReport.user}</p>
+                                        </div>
+
+                                        {/* Created At */}
+                                        <div className="space-y-1">
+                                            <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                                <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    CreatedAt
+                                                </span>
+                                            </div>
+                                            <p className="text-foreground text-sm dark:text-gray-400">{selectedReport.createdAt}</p>
+                                        </div>
+                                        {/* {format(report.createdAt, "PPP")} at {format(report.createdAt, "p")} */}
+
+                                        {/* Updated At */}
+                                        <div className="space-y-1">
+                                            <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg>
+                                                <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                    UpdatedAt
+                                                </span>
+                                            </div>
+                                            <p className="text-foreground text-sm dark:text-gray-400">{selectedReport.updatedAt}</p>
+                                        </div>
+                                    </div>
+
+                                    {/* Description */}
+                                    <div className="space-y-1 mt-4">
+                                        <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                            {/* <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg> */}
+                                            <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                Description
+                                            </span>
+                                        </div>
+                                        <p className="text-foreground text-sm dark:text-gray-400">
+                                            {selectedReport.description}
+                                        </p>
+                                    </div>
+
+                                    {/* Status */}
+                                    <div className="space-y-1 mt-4">
+                                        <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
+                                            {/* <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
+                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
+                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                </svg> */}
+                                            <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
+                                                Update Status
+                                            </span>
+                                        </div>
+                                        <select
+                                            className="block w-56 mt-1 text-sm dark:text-gray-300 dark:border-gray-600 dark:bg-gray-700 form-select focus:border-purple-400 focus:outline-none focus:shadow-outline-purple dark:focus:shadow-outline-gray"
+                                            value={status || (selectedReport && selectedReport.status) || "pending"} onChange={(e) => setStatus(e.target.value)}
+                                        >
+                                            <option value="pending">Pending</option>
+                                            <option value="cleaned">Cleaned</option>
+                                            <option value="rejected">Rejected</option>
+                                        </select>
+                                        {statusError && (
+                                            <div className="text-red-500 text-sm mt-2">{statusError}</div>
+                                        )}
+                                    </div>
+                                </div>
+
+                                {/* Footer */}
+                                <footer className="flex flex-col items-center justify-end px-6 py-3 -mx-6 -mb-4 space-y-4 sm:space-y-0 sm:space-x-6 sm:flex-row bg-gray-50 dark:bg-gray-800">
+                                    <button
+                                        onClick={closeModal}
+                                        className="w-full px-5 py-3 text-sm font-medium text-gray-700 transition-colors duration-150 border border-gray-300 rounded-lg dark:text-gray-400 sm:w-auto sm:px-4 sm:py-2 hover:border-gray-500 focus:outline-none focus:shadow-outline-gray"
+                                    >
+                                        Cancel
+                                    </button>
+                                    <button
+                                        className="w-full px-5 py-3 text-sm font-medium text-white transition-colors duration-150 bg-purple-600 border border-transparent rounded-lg sm:w-auto sm:px-4 sm:py-2 hover:bg-purple-700 focus:outline-none focus:shadow-outline-purple"
+                                        onClick={handleSave}
+                                    >
+                                        Save
+                                    </button>
+                                </footer>
+                            </div>
+                            {isImageModalOpen && (
+                                <div
+                                    className="fixed inset-0 z-40 flex items-center justify-center bg-black bg-opacity-70"
+                                    onClick={() => setIsImageModalOpen(false)}
+                                >
+                                    <div
+                                        className="bg-white dark:bg-gray-800 rounded-lg p-4 shadow-lg"
+                                        onClick={e => e.stopPropagation()}
+                                    >
+                                        <img
+                                            src={selectedReport.image}
+                                            alt="Full size report evidence"
+                                            className="max-w-full max-h-[80vh] rounded"
+                                        />
+                                        <button
+                                            className="mt-4 px-4 py-2 bg-purple-600 text-white rounded hover:bg-purple-700"
+                                            onClick={() => setIsImageModalOpen(false)}
+                                        >
+                                            Close
+                                        </button>
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+
                     {/* <div
-                    class="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
+                    className="grid px-4 py-3 text-xs font-semibold tracking-wide text-gray-500 uppercase border-t dark:border-gray-700 bg-gray-50 sm:grid-cols-9 dark:text-gray-400 dark:bg-gray-800"
                 >
-                    <span class="flex items-center col-span-3">
+                    <span className="flex items-center col-span-3">
                         Showing 21-30 of 100
                     </span>
-                    <span class="col-span-2"></span>
-                    <span class="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
+                    <span className="col-span-2"></span>
+                    <span className="flex col-span-4 mt-2 sm:mt-auto sm:justify-end">
                         <nav aria-label="Table navigation">
-                            <ul class="inline-flex items-center">
+                            <ul className="inline-flex items-center">
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md rounded-l-lg focus:outline-none focus:shadow-outline-purple"
                                         aria-label="Previous"
                                     >
                                         <svg
-                                            class="w-4 h-4 fill-current"
+                                            className="w-4 h-4 fill-current"
                                             aria-hidden="true"
                                             viewBox="0 0 20 20"
                                         >
@@ -209,56 +499,56 @@ export default function Reports() {
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         1
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         2
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 text-white transition-colors duration-150 bg-purple-600 border border-r-0 border-purple-600 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         3
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         4
                                     </button>
                                 </li>
                                 <li>
-                                    <span class="px-3 py-1">...</span>
+                                    <span className="px-3 py-1">...</span>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         8
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md focus:outline-none focus:shadow-outline-purple"
                                     >
                                         9
                                     </button>
                                 </li>
                                 <li>
                                     <button
-                                        class="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
+                                        className="px-3 py-1 rounded-md rounded-r-lg focus:outline-none focus:shadow-outline-purple"
                                         aria-label="Next"
                                     >
                                         <svg
-                                            class="w-4 h-4 fill-current"
+                                            className="w-4 h-4 fill-current"
                                             aria-hidden="true"
                                             viewBox="0 0 20 20"
                                         >
@@ -274,8 +564,9 @@ export default function Reports() {
                         </nav>
                     </span>
                 </div> */}
-                </div>
-            )}
+                </div >
+            )
+            }
         </>
     )
 }
