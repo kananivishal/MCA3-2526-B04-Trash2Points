@@ -81,10 +81,10 @@ function Sidebar({ isOpen, onClose }) {
   ];
 
 
-    function handleOnclickLabel(e) {
-      setIsActiveMenu(e.target.innerText);
-      
-    }
+  function handleOnclickLabel(e) {
+    setIsActiveMenu(e.target.innerText);
+
+  }
 
   return (
     <>
@@ -104,13 +104,14 @@ function Sidebar({ isOpen, onClose }) {
             </ul> */}
           <ul className='mt-6'>
             {navLinks.map(({ to, label, icon, isRoute }) => (
-              <li className="relative px-6 py-3" key={label} onClick={(e)=> handleOnclickLabel(e)}>
+              <li className="relative px-6 py-3" key={label}>
                 {isRoute ? (
-                  <Link to={to} className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200">
-                    {isActiveMenu === label  ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
-
-                    <span style={isActiveMenu === label ?{color:"#2d3748"}: null}>{icon}</span>
-                    <span className="ml-4" style={isActiveMenu === label ?{color:"#2d3748"}: null}>{label}</span>
+                  <Link to={to} className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    onClick={() => setIsActiveMenu(label)}
+                  >
+                    {isActiveMenu === label ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
+                    <span style={isActiveMenu === label ? { color: "#2d3748" } : null}>{icon}</span>
+                    <span className="ml-4" style={isActiveMenu === label ? { color: "#2d3748" } : null}>{label}</span>
                   </Link>
                 ) : (
                   <a
@@ -195,16 +196,20 @@ function Sidebar({ isOpen, onClose }) {
           </ul> */}
           <ul>
             {navLinks.map(({ to, label, icon, isRoute }) => (
-              <li className="relative px-6 py-3" key={label} onClick={(e)=> handleOnclickLabel(e)}>
+              <li className="relative px-6 py-3" key={label}>
                 {isRoute ? (
                   <Link
                     to={to}
                     className="inline-flex items-center w-full text-sm font-semibold transition-colors duration-150 hover:text-gray-800 dark:hover:text-gray-200"
+                    onClick={() => {
+                      setIsActiveMenu(label);
+                      if (onClose) onClose();
+                    }}
                   >
-                    {isActiveMenu === label  ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
+                    {isActiveMenu === label ? <span className="absolute inset-y-0 left-0 w-1 bg-purple-600 rounded-tr-lg rounded-br-lg" aria-hidden="true"></span> : null}
 
-                    <span style={isActiveMenu === label ?{color:"#2d3748"}: null}>{icon}</span>
-                    <span className="ml-4" style={isActiveMenu === label ?{color:"#2d3748"}: null}>{label}</span>
+                    <span style={isActiveMenu === label ? { color: "#2d3748" } : null}>{icon}</span>
+                    <span className="ml-4" style={isActiveMenu === label ? { color: "#2d3748" } : null}>{label}</span>
                   </Link>
                 ) : (
                   <a
