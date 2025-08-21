@@ -30,7 +30,7 @@ const addReport = async (req, res) => {
         let { image, latitude, longitude, address, description } = req.body
         let { token } = req.headers
         const user = await verifyUser(token)
-        
+
         if (!image || !latitude || !longitude || !address || !description) {
             return res.status(400).json({
                 success: false,
@@ -106,7 +106,8 @@ const getSingleReport = async (req, res) => {
             });
         }
 
-        const report = await Report.findById(id);
+        const report = await Report.findById(id)
+            .populate('verifiedBy', 'name');
 
         if (!report) {
             return res.status(404).json({
@@ -116,7 +117,17 @@ const getSingleReport = async (req, res) => {
         }
         return res.status(200).json({
             success: true,
-            report
+            report: {
+                location: report.location,
+                id: report._id,
+                user: report.userId,
+                description: report.description,
+                status: report.status,
+                image: report.image,
+                updatedAt: report.updatedAt,
+                createdAt: report.createdAt,
+                verifiedBy: report.verifiedBy ? report.verifiedBy.name : null
+            }
         })
 
     } catch (error) {
