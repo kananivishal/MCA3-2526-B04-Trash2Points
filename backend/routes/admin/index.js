@@ -1,6 +1,6 @@
 const express = require('express')
 const { getAllReports, updateReport, deleteReport } = require('../../controllers/admin/report.controller')
-const { home } = require('../../controllers/admin/home.controller')
+const { getHomeData } = require('../../controllers/admin/home.controller')
 const router = express.Router()
 
 // show all report
@@ -28,6 +28,6 @@ router.get('/deletereport', (req, res) => {
 router.delete('/deletereport/:id', deleteReport)
 
 // dashboard routers
-router.get('/home', home)
+router.get('/home', getHomeData)
 
 module.exports = router

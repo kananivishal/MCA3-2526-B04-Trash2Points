@@ -2,7 +2,7 @@ const jwt = require("jsonwebtoken")
 const { User } = require("../../model/User")
 const Report = require("../../model/Report")
 
-const home = async (req, res) => {
+const getHomeData = async (req, res) => {
     try {
         let { token } = req.headers
         if (!token) {
@@ -77,4 +77,4 @@ const home = async (req, res) => {
     }
 }
 
-module.exports = { home }
+module.exports = { getHomeData }
