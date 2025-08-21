@@ -106,81 +106,6 @@ export default function Reports() {
                             >
                                 {reports.length === 0 ? (
                                     <td colSpan={8} className="py-4 px-4 text-center text-gray-500 dark:text-gray-400">No reports found.</td>
-                                    // <tr className="text-gray-700 dark:text-gray-400">
-                                    //     <td className="px-4 py-3">
-                                    //         <div className="flex items-center text-sm">
-                                    //             <div
-                                    //                 className="relative hidden w-8 h-8 mr-3 rounded-full md:block"
-                                    //             >
-                                    //                 <img
-                                    //                     className="object-cover w-full h-full rounded-full"
-                                    //                     src="https://images.unsplash.com/flagged/photo-1570612861542-284f4c12e75f?ixlib=rb-1.2.1&q=80&fm=jpg&crop=entropy&cs=tinysrgb&w=200&fit=max&ixid=eyJhcHBfaWQiOjE3Nzg0fQ"
-                                    //                     alt=""
-                                    //                     loading="lazy"
-                                    //                 />
-                                    //                 <div
-                                    //                     className="absolute inset-0 rounded-full shadow-inner"
-                                    //                     aria-hidden="true"
-                                    //                 ></div>
-                                    //             </div>
-                                    //             <div>
-                                    //                 <p className="font-semibold">Hans Burger</p>
-                                    //                 <p className="text-xs text-gray-600 dark:text-gray-400">
-                                    //                     10x Developer
-                                    //                 </p>
-                                    //             </div>
-                                    //         </div>
-                                    //     </td>
-                                    //     <td className="px-4 py-3 text-sm">
-                                    //         $ 863.45
-                                    //     </td>
-                                    //     <td className="px-4 py-3 text-xs">
-                                    //         <span
-                                    //             className="px-2 py-1 font-semibold leading-tight text-green-700 bg-green-100 rounded-full dark:bg-green-700 dark:text-green-100"
-                                    //         >
-                                    //             Approved
-                                    //         </span>
-                                    //     </td>
-                                    //     <td className="px-4 py-3 text-sm">
-                                    //         6/10/2020
-                                    //     </td>
-                                    //     <td className="px-4 py-3">
-                                    //         <div className="flex items-center space-x-4 text-sm">
-                                    //             <button
-                                    //                 className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                    //                 aria-label="Edit"
-                                    //             >
-                                    //                 <svg
-                                    //                     className="w-5 h-5"
-                                    //                     aria-hidden="true"
-                                    //                     fill="currentColor"
-                                    //                     viewBox="0 0 20 20"
-                                    //                 >
-                                    //                     <path
-                                    //                         d="M13.586 3.586a2 2 0 112.828 2.828l-.793.793-2.828-2.828.793-.793zM11.379 5.793L3 14.172V17h2.828l8.38-8.379-2.83-2.828z"
-                                    //                     ></path>
-                                    //                 </svg>
-                                    //             </button>
-                                    //             <button
-                                    //                 className="flex items-center justify-between px-2 py-2 text-sm font-medium leading-5 text-purple-600 rounded-lg dark:text-gray-400 focus:outline-none focus:shadow-outline-gray"
-                                    //                 aria-label="Delete"
-                                    //             >
-                                    //                 <svg
-                                    //                     className="w-5 h-5"
-                                    //                     aria-hidden="true"
-                                    //                     fill="currentColor"
-                                    //                     viewBox="0 0 20 20"
-                                    //                 >
-                                    //                     <path
-                                    //                         fill-rule="evenodd"
-                                    //                         d="M9 2a1 1 0 00-.894.553L7.382 4H4a1 1 0 000 2v10a2 2 0 002 2h8a2 2 0 002-2V6a1 1 0 100-2h-3.382l-.724-1.447A1 1 0 0011 2H9zM7 8a1 1 0 012 0v6a1 1 0 11-2 0V8zm5-1a1 1 0 00-1 1v6a1 1 0 102 0V8a1 1 0 00-1-1z"
-                                    //                         clip-rule="evenodd"
-                                    //                     ></path>
-                                    //                 </svg>
-                                    //             </button>
-                                    //         </div>
-                                    //     </td>
-                                    // </tr>
                                 ) : (
                                     reports.map((report, idx) => (
                                         <tr key={report._id || idx} className="border-b border-gray-200 dark:border-gray-700">
@@ -331,9 +256,8 @@ export default function Reports() {
                                         {/* Location */}
                                         <div className="space-y-1">
                                             <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
-                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
-                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                <svg className="w-4 h-4 mr-1" viewBox="0 -960 960 960" fill="#757575">
+                                                    <path d="M480-480q33 0 56.5-23.5T560-560q0-33-23.5-56.5T480-640q-33 0-56.5 23.5T400-560q0 33 23.5 56.5T480-480Zm0 294q122-112 181-203.5T720-552q0-109-69.5-178.5T480-800q-101 0-170.5 69.5T240-552q0 71 59 162.5T480-186Zm0 106Q319-217 239.5-334.5T160-552q0-150 96.5-239T480-880q127 0 223.5 89T800-552q0 100-79.5 217.5T480-80Zm0-480Z" />
                                                 </svg>
                                                 <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
                                                     Location
@@ -345,9 +269,8 @@ export default function Reports() {
                                         {/* User */}
                                         <div className="space-y-1">
                                             <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
-                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
-                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                <svg className="w-4 h-4 mr-1" fill="#757575" stroke="currentColor" viewBox="0 -960 960 960">
+                                                    <path d="M480-480q-66 0-113-47t-47-113q0-66 47-113t113-47q66 0 113 47t47 113q0 66-47 113t-113 47ZM160-160v-112q0-34 17.5-62.5T224-378q62-31 126-46.5T480-440q66 0 130 15.5T736-378q29 15 46.5 43.5T800-272v112H160Zm80-80h480v-32q0-11-5.5-20T700-306q-54-27-109-40.5T480-360q-56 0-111 13.5T260-306q-9 5-14.5 14t-5.5 20v32Zm240-320q33 0 56.5-23.5T560-640q0-33-23.5-56.5T480-720q-33 0-56.5 23.5T400-640q0 33 23.5 56.5T480-560Zm0-80Zm0 400Z"></path>
                                                 </svg>
                                                 <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
                                                     Reported By
@@ -359,9 +282,8 @@ export default function Reports() {
                                         {/* Created At */}
                                         <div className="space-y-1">
                                             <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
-                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
-                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                <svg className="w-4 h-4 mr-1" fill="#757575" viewBox="0 -960 960 960">
+                                                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"></path>
                                                 </svg>
                                                 <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
                                                     CreatedAt
@@ -374,9 +296,8 @@ export default function Reports() {
                                         {/* Updated At */}
                                         <div className="space-y-1">
                                             <div className="flex gap-2 items-center text-sm font-medium text-muted-foreground">
-                                                <svg className="w-4 h-4 mr-1" aria-hidden="true" fill="none"
-                                                    strokeLinejoin="round" viewBox="0 0 24 24" stroke="currentColor">
-                                                    <path d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+                                                <svg className="w-4 h-4 mr-1" fill="#757575" viewBox="0 -960 960 960">
+                                                    <path d="M200-80q-33 0-56.5-23.5T120-160v-560q0-33 23.5-56.5T200-800h40v-80h80v80h320v-80h80v80h40q33 0 56.5 23.5T840-720v560q0 33-23.5 56.5T760-80H200Zm0-80h560v-400H200v400Zm0-480h560v-80H200v80Zm0 0v-80 80Z"></path>
                                                 </svg>
                                                 <span className="mb-1 text-sm font-medium text-gray-600 dark:text-gray-400">
                                                     UpdatedAt
