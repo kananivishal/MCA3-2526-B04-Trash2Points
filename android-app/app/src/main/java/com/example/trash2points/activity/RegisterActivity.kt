@@ -6,6 +6,7 @@ import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.trash2points.ApiClient
+import com.example.trash2points.SharedPrefManager
 import com.example.trash2points.Utils
 import com.example.trash2points.databinding.ActivityRegisterBinding
 import com.example.trash2points.model.RegisterRequest
@@ -76,9 +77,17 @@ class RegisterActivity : AppCompatActivity() {
                     val res = response.body()!!
                     binding.lottieAnimation.visibility = View.GONE
                     binding.registerTxt.visibility = View.VISIBLE
-                    val sharedPref = getSharedPreferences("MyAppPrefs", MODE_PRIVATE)
-                    sharedPref.edit().putString("token", res.token).apply()
-                    Utils.currentUser = res.user
+                    res.user!!.name?.let {
+                        res.user!!.address?.let { it1 ->
+                            SharedPrefManager.saveUserData(
+                                token = res.token.toString(),
+                                name = it,
+                                address = it1,
+                                email =res.user!!.email!!,
+                                phone = res.user!!.phoneno!!
+                            )
+                        }
+                    }
                     startActivity(Intent(this@RegisterActivity , MainActivity::class.java))
                     Toast.makeText(this@RegisterActivity, res.message, Toast.LENGTH_SHORT).show()
                 } else {

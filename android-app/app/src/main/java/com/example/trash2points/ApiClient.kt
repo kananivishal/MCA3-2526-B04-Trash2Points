@@ -34,9 +34,9 @@ object ApiClient
             .build()
     }
 
-//    val cloudinaryApi: CloudinaryApiService by lazy {
-//        cloudinaryClient.create(CloudinaryApiService::class.java)
-//    }
+    val cloudinaryApi: CloudinaryApiService by lazy {
+        cloudinaryClient.create(CloudinaryApiService::class.java)
+    }
 
     val apiServiceWithoutAuth: ApiService by lazy {
         retrofitWithoutAuth.create(ApiService::class.java)

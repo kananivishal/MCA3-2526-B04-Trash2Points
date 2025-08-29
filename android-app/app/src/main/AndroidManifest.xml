@@ -2,19 +2,23 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools">
 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission
         android:name="android.permission.READ_EXTERNAL_STORAGE"
         android:maxSdkVersion="32" /> <!-- For Android 13+ -->
-
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.CAMERA" />
-    <uses-feature android:name="android.hardware.camera" android:required="false" />
+
+    <uses-feature
+        android:name="android.hardware.camera"
+        android:required="false" />
 
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION" />
 
     <application
+        android:name=".MyApplication"
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
         android:fullBackupContent="@xml/backup_rules"
@@ -25,6 +29,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.Trash2Points"
         android:usesCleartextTraffic="true">
+        <activity
+            android:name=".activity.Map"
+            android:exported="false" />
+        <activity
+            android:name=".activity.SingleReport"
+            android:exported="false" />
         <activity
             android:name=".activity.AddReportActivity"
             android:exported="false" />
@@ -39,12 +49,10 @@
         </activity>
         <activity
             android:name=".activity.RegisterActivity"
-            android:exported="false"
-            android:theme="@style/Base.Theme.SplashScreen" />
+            android:exported="false" />
         <activity
             android:name=".activity.LoginActivity"
-            android:exported="false"
-            android:theme="@style/Base.Theme.SplashScreen" />
+            android:exported="false" />
         <activity
             android:name=".activity.MainActivity"
             android:exported="false"
@@ -59,7 +67,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
 
 </manifest>

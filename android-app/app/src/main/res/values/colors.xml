@@ -11,9 +11,30 @@
     <color name="black_transperent2">#88000000</color>
 
     <color name="textColor">#6F6F6F</color>
+    <color name="textColor2">#ACACAC</color>
+    <color name="logout">#D34635</color>
 
     <color name="def_icon">#353535</color>
+    <color name="gray">#F3F3F3</color>
     <color name="lightGray">#FF9E9E9E</color>
     <color name="secondaryText">#FF757575</color>
+    <color name="darkGray">#0C0C0C</color>
     <color name="dividerLight">#E8E8E8</color>
+
+    <color name="red">#D34635</color>
+    <color name="gren">#33CA1E</color>
+
+
+
+    <color name="dark_blue">#016ef6</color>
+    <color name="light_grey">#CECECE</color>
+    <color name="light_red">#F8D7D7</color>
+    <color name="red_progress">#F65454</color>
+    <color name="light_green">#DCF6DC</color>
+    <color name="green_progress">#45F845</color>
+    <color name="light_blue">#EDF1FA</color>
+    <color name="blue_progress">#356CE9</color>
+    <color name="gray_light">#E0E0E0</color>
+
+
 </resources>
