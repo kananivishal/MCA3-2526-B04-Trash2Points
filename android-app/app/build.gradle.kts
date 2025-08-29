@@ -49,10 +49,13 @@ dependencies {
     implementation(libs.androidx.activity)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.play.services.location)
+    implementation(libs.androidx.swiperefreshlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
     implementation(libs.ssp.android)
+    implementation ("org.osmdroid:osmdroid-android:6.1.14")
+
     implementation(libs.sdp.android)
     implementation ("com.squareup.retrofit2:converter-scalars:2.9.0")
     implementation ("com.squareup.okhttp3:logging-interceptor:4.9.1")

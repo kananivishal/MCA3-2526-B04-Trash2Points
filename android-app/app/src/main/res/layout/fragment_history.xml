@@ -1,14 +1,164 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".fragment.HistoryFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <!-- Toolbar -->
+    <RelativeLayout
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/primaryColor">
+
+        <ImageView
+            android:id="@+id/back_ic"
+            android:layout_width="@dimen/_40sdp"
+            android:layout_height="@dimen/_40sdp"
+            android:layout_centerVertical="true"
+            android:layout_marginStart="@dimen/_5sdp"
+            android:padding="@dimen/_8sdp"
+            android:src="@drawable/keyboard_back"
+            app:tint="@color/white" />
+
+        <com.google.android.material.textview.MaterialTextView
+            android:id="@+id/toolbar_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:fontFamily="@font/poppins_bold"
+            android:text="Report History"
+            android:includeFontPadding="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/_16sdp" />
+    </RelativeLayout>
+
+    <!-- Content -->
+    <LinearLayout
+        android:layout_below="@id/toolbar"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="History Fragment" />
+        android:orientation="vertical"
+        android:paddingHorizontal="@dimen/_15sdp"
+        android:paddingVertical="@dimen/_10sdp">
 
-</FrameLayout>
+        <!-- Search -->
+        <EditText
+            android:id="@+id/search"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/_38sdp"
+            android:background="@drawable/shape_search_stroke"
+            android:drawableStart="@drawable/icon_search"
+            android:drawablePadding="@dimen/_7sdp"
+            android:hint="Search"
+            android:inputType="text"
+            android:includeFontPadding="false"
+            android:maxLines="2"
+            android:padding="@dimen/_10sdp"
+            android:paddingStart="@dimen/_5sdp" />
+
+        <!-- Status Buttons -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginVertical="@dimen/_10sdp"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/pending"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:background="@drawable/shape_fillprimary5"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+
+                android:includeFontPadding="false"
+                android:paddingVertical="@dimen/_7sdp"
+                android:text="Pending"
+                android:textColor="@color/white"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/rejected"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/shape_stroke_corners"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingVertical="@dimen/_7sdp"
+                android:text="Rejected"
+                android:textColor="@color/primaryColor"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/completed"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/shape_stroke_corners"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingVertical="@dimen/_7sdp"
+                android:text="Complete"
+                android:textColor="@color/primaryColor"
+                android:textSize="@dimen/_11sdp" />
+
+            <TextView
+                android:id="@+id/all"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="@dimen/_5sdp"
+                android:background="@drawable/shape_stroke_corners"
+                android:fontFamily="@font/poppins_medium"
+                android:gravity="center"
+                android:includeFontPadding="false"
+                android:paddingVertical="@dimen/_7sdp"
+                android:text="All"
+                android:textColor="@color/primaryColor"
+                android:textSize="@dimen/_11sdp" />
+        </LinearLayout>
+
+        <!-- Swipe Refresh + RecyclerView -->
+        <androidx.swiperefreshlayout.widget.SwipeRefreshLayout
+            android:id="@+id/swipeRefresh"
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1">
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:clipToPadding="false"
+                 />
+
+        </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
+
+    </LinearLayout>
+
+    <!-- Loader -->
+    <RelativeLayout
+        android:id="@+id/lottieAnimation"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/black_transperent2"
+        android:visibility="gone">
+
+        <com.airbnb.lottie.LottieAnimationView
+            android:layout_width="@dimen/_80sdp"
+            android:layout_height="@dimen/_80sdp"
+            android:layout_centerInParent="true"
+            app:lottie_autoPlay="true"
+            app:lottie_loop="true"
+            app:lottie_rawRes="@raw/loading" />
+    </RelativeLayout>
+
+</RelativeLayout>
