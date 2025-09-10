@@ -30,7 +30,7 @@ const register = async (req, res) => {
             email,
             phoneno,
             address,
-            // password: passwordHashed,
+            password: passwordHashed,
             password,
             role: 'user'
         })
@@ -76,13 +76,13 @@ const login = async (req, res) => {
             })
         }
         // compare password
-        // const isPasswordMatch = bcrypt.compareSync(password, user.password)
-        // if (!isPasswordMatch || role != user.role) {
-        //     return res.status(401).json({
-        //         success: false,
-        //         message: "Invalid credentials!"
-        //     })
-        // }
+        const isPasswordMatch = bcrypt.compareSync(password, user.password)
+        if (!isPasswordMatch || role != user.role) {
+            return res.status(401).json({
+                success: false,
+                message: "Invalid credentials!"
+            })
+        }
 
         if (password != user.password || role != user.role) {
             return res.status(401).json({
